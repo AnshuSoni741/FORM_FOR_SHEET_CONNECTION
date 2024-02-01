@@ -38,7 +38,8 @@
       ><br /><br />
       <label>Message</label><br /><br />
       <textarea name="message" cols="20" required></textarea><br />
-      <input type="submit" name="" id="" />
+      <input type="submit" name="" id="" /><br /><br />
+      <span id="success"></span>
     </form>
   </body>
 
@@ -46,11 +47,17 @@
     const scriptURL =
       "https://script.google.com/macros/s/AKfycbzQ7EWz6-tN8ZNZ1-NYEVOFlK1lNK8MhmI40RS6YO5vTzTyEf_nakbE1nhIlzz9fVFN/exec";
     const form = document.forms["submit-to-google-sheet"];
-
+    const success = document.getElementById("success");
     form.addEventListener("submit", (e) => {
       e.preventDefault();
       fetch(scriptURL, { method: "POST", body: new FormData(form) })
-        .then((response) => console.log("Success!", response))
+        .then((response) => {
+          success.innerHTML = "Your data has sucessfully submitted";
+          setTimeout(function () {
+            success.innerHTML = "";
+          }, 4000);
+          form.reset();
+        })
         .catch((error) => console.error("Error!", error.message));
     });
   </script>
